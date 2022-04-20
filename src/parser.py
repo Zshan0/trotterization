@@ -25,11 +25,11 @@ def parse(string: str) -> np.ndarray:
     string_lines = string.splitlines()
     tau, k, n = map(int, string_lines[0].split())
 
-    A = np.zeros((k, n))
+    A = np.zeros((tau, n))
 
     for ind, row in enumerate(string_lines[1:]):
         operators = row.split()
-        assert len(operators) <= tau
+        assert len(operators) <= k
 
         for operator in operators:
             gate, qubit = operator.split("_")
