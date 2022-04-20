@@ -14,7 +14,7 @@ def get_operator(A: np.ndarray, _time: float) -> PauliSumOp:
         operator = pauli_gates[int(term[0])]
 
         for gate in term[1:]:
-            operator = operator ^ pauli_gates[int(gate)]
+            operator = pauli_gates[int(gate)] ^ operator
 
         if final_operator == None:
             final_operator = operator

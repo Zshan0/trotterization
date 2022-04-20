@@ -19,7 +19,7 @@ def trotter(A: np.ndarray, _time: float, _r: int) -> QuantumCircuit:
             operator = pauli_gates[int(term[0])]
 
             for gate in term[1:]:
-                operator = operator ^ pauli_gates[int(gate)]
+                operator = pauli_gates[int(gate)] ^ operator
 
             evolution_gate = PauliEvolutionGate(operator, _time / _r)
             circ.append(evolution_gate, qubits)
