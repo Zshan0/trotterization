@@ -1,7 +1,9 @@
 from typing import List, Tuple
 import numpy as np
 
+from qiskit.opflow import I, Z, X, Y, PauliSumOp
 
+pauli_gates = [I, X, Y, Z]
 pauli_map = {"I": 0, "X": 1, "Y": 2, "Z": 3}
 
 
@@ -38,6 +40,26 @@ def parse(string: str) -> np.ndarray:
             A[ind][qubit] = pauli_num
 
     return A
+
+
+def get_operator(A: np.ndarray, _time: float) -> PauliSumOp:
+    final_operator = None
+    for term in A:
+        operator = pauli_gates[int(term[0])]
+
+        for gate in term[1:]:
+            operator = pauli_gates[int(gate)] ^ operator
+
+        if final_operator == None:
+            final_operator = operator
+        else:
+            final_operator = final_operator + operator
+
+    assert final_operator is not None
+    final_operator = final_operator * _time
+    assert final_operator is not None
+
+    return final_operator
 
 
 def main():
