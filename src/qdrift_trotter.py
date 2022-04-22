@@ -28,8 +28,7 @@ def get_operator(A: np.ndarray, _time: float) -> PauliSumOp:
     return final_operator
 
 
-def inbuilt_trotter(operator:PauliEvolutionGate, _order:int, _r: int) -> QuantumCircuit:
-    print(_r)
+def qdrift_trotter(operator:PauliEvolutionGate, _order:int, _r: int) -> QuantumCircuit:
     trotterizor = QDrift(reps=_r) # order 1 always.
     circ = trotterizor.synthesize(operator)
     return circ
@@ -43,7 +42,7 @@ def main():
     _order, _time, _r = 1, 2.0, 2
     operator = get_operator(A, _time)
     operator = PauliEvolutionGate(operator)
-    circ = inbuilt_trotter(operator, _order, _r)
+    circ = qdrift_trotter(operator, _order, _r)
     decomposed = circ.decompose()
     print("High-level circuit:")
     print(circ)
